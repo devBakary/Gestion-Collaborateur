@@ -79,12 +79,12 @@ public class AuthController {
                 .collect(Collectors.toList());
         List<String> entite = new ArrayList<>(); entite.add("ROLE_USER");
         if (roles.equals(entite)) {
-            log.info("COLLABORATEUR USER CONNECTER AVEC SUCCESS");
+            log.info("collaborateur user ajouter avec succès");
             return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
                     .body("BIENVENU USER");
         }
         else {
-            log.info("COLLABORATEUR ADMIN CONNECTER AVEC SUCCESS");
+            log.info("Admin connecté avec succès");
             return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
                     .body("BIENVENU ADMIN");
         }
@@ -118,16 +118,23 @@ public class AuthController {
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
-        if (userRepository.existsByUsername(signUpRequest.getUsername())) {
+        if (
+
+                userRepository.existsByUsername(signUpRequest.getUsername())) {
+            log.info("ce nom d'utilisateur est déja pris");
             return ResponseEntity
                     .badRequest()
-                    .body(new MessageResponse("Error: Username is already taken!"));
+                    .body(new MessageResponse("Error: nom d'utilisateur est déja pris!"));
         }
 
-        if (userRepository.existsByEmail(signUpRequest.getEmail())) {
+        if (
+                userRepository.existsByEmail(signUpRequest.getEmail())) {
+            log.info("cet email est déja pris");
             return ResponseEntity
                     .badRequest()
-                    .body(new MessageResponse("Error: Email is already in use!"));
+                    .body(new MessageResponse("Error: cet email est déja pris!")
+                    );
+
         }
 
         // Create new user's account
